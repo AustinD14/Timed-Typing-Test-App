@@ -4,11 +4,19 @@ const originText = document.querySelector("#origin-text p").innerHTML;
 const resetButton = document.querySelector("#reset");
 const theTimer = document.querySelector(".timer");
 var min = 0, sec = 0, hun = 0,timer = 0;
-// Add leading zero to numbers 9 or below (purely for aesthetics):
+var timerIsOn = false;
 
+// Add leading zero to numbers 9 or below (purely for aesthetics):
+function leadingNum() {
+  if (hun < 10)
+  hun = '0'+hun;
+  if (sec < 10)
+  sec = '0'+sec;
+  if (min < 10)
+  min ='0'+min; 
+}
 
 // Run a standard minute/second/hundredths timer:
-
 function add() {
     hun++;
     if (hun == 100) {
@@ -19,26 +27,54 @@ function add() {
         min++;
       }
     }  
-    // if (hun < 10)
-    //     hun = '0'+hun;
-    // if (sec < 10)
-    //     sec = '0'+sec;
-    // if (min < 10)
-    //     min ='0'+min;      
+     
     theTimer.innerHTML=min+':'+sec+':'+hun;
 }
 function startTimer(){  
-    timer = setInterval(add,10);
+  timerIsOn = true;
+  timer = setInterval(add,10);
+    
 }
 // Match the text entered with the provided text on the page:
+function isMatch() {
+  var testText = originText.substring(0,testArea.value.length)
+  if (testArea.value == testText){
+    return true;
+  }
+  else if(testArea.value != testText){
+    return false;
+  }
+  else
+   return null;
+}
 
+function changeBorderColor() {
+  if (isMatch())
+    testWrapper.style.borderColor = "blue";
+  else if(!isMatch())
+    testWrapper.style.borderColor = "orange";
+  else 
+    console.log("error");
+}
 
 // Start the timer:
 testArea.addEventListener("keypress", (event)=>{
-    startTimer();
+    if (!timerIsOn)
+      startTimer();
 })
 
 // Reset everything:
-
+resetButton.onclick = function(){
+  timerIsOn = false;
+  theTimer.innerHTML = "00:00:00";
+  min = 0, 
+  sec = 0, 
+  hun = 0,
+  clearInterval(timer)
+  testArea.reset();//fixing
+}
 
 // Event listeners for keyboard input and the reset button:
+testArea.addEventListener("keyup", (event)=>{
+  changeBorderColor();
+})

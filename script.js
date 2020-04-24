@@ -23,7 +23,7 @@ var sentences = ["The quick brown fox jumps over the lazy dog.",
 ]
 
 function generatePracticeText() {
- function generate() {
+  function generate() {
     var randomNum = (Math.floor(Math.random() * sentences.length));
     return sentences[randomNum];
   }
@@ -81,6 +81,14 @@ function changeBorderColor() {
     console.log("error");
 }
 
+function stopTimer() {
+  clearInterval(timer);
+}
+
+function testIsDone(){
+  if(testArea.value == originText)
+    stopTimer();
+}
 // Start the timer:
 testArea.addEventListener("keypress", (event) => {
   if (!timerIsOn)
@@ -98,10 +106,11 @@ resetButton.onclick = function () {
   testArea.value = "";
   testWrapper.style.borderColor = "";
   generatePracticeText();
-  
+
 }
 
 // Event listeners for keyboard input and the reset button:
 testArea.addEventListener("keyup", (event) => {
   changeBorderColor();
+  testIsDone();
 })

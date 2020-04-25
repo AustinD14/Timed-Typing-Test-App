@@ -112,8 +112,7 @@ function wordsPerMinute() {
 
 function isDone() {
   clearInterval(timer);
-  alert("Congratulations! " + '\n' +
-    "Words per minute: " + wordsPerMinute());
+  testWrapper.style.borderColor = "teal";
 }
 
 // Event listeners for keyboard input and the reset button:

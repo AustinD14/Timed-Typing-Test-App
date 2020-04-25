@@ -169,6 +169,11 @@ body {
     font-weight: bold;
 }
 
+.wpm-wrapper {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
 #reset {
     padding: .5em 1em;
     font-size: 1.2em;

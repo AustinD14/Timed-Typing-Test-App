@@ -3,6 +3,7 @@ const testArea = document.querySelector("#test-area");
 var originText = document.querySelector("#origin-text p").innerHTML;
 const resetButton = document.querySelector("#reset");
 const theTimer = document.querySelector(".timer");
+const wpm = document.querySelector(".wpm");
 var min = 0,
   sec = 0,
   hun = 0,
@@ -52,8 +53,11 @@ function add() {
       min++;
     }
   }
-
   theTimer.innerHTML = min + ':' + sec + ':' + hun;
+  if (sec > 1)
+    wpm.innerHTML = wordsPerMinute();
+  else
+    wpm.innerHTML = '0';
 }
 
 function startTimer() {
@@ -81,14 +85,7 @@ function changeBorderColor() {
     console.log("error");
 }
 
-function stopTimer() {
-  clearInterval(timer);
-}
 
-function testIsDone(){
-  if(testArea.value == originText)
-    stopTimer();
-}
 // Start the timer:
 testArea.addEventListener("keypress", (event) => {
   if (!timerIsOn)
@@ -106,11 +103,22 @@ resetButton.onclick = function () {
   testArea.value = "";
   testWrapper.style.borderColor = "";
   generatePracticeText();
+  wpm.innerHTML = 0;
+}
 
+function wordsPerMinute() {
+  return (Math.ceil(testArea.value.split(' ').length / (min + (sec / 60))));
+}
+
+function isDone() {
+  clearInterval(timer);
+  alert("Congratulations! " + '\n' +
+    "Words per minute: " + wordsPerMinute());
 }
 
 // Event listeners for keyboard input and the reset button:
 testArea.addEventListener("keyup", (event) => {
   changeBorderColor();
-  testIsDone();
+  if (testArea.value == originText)
+    isDone();
 })
